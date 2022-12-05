@@ -6,6 +6,14 @@ input:invalid {
   border: 1px solid tomato
 }
 
+textarea:valid{
+  border: 1px solid lightseagreen
+}
+
+textarea:invalid {
+border: 1px solid tomato
+}
+
 .error {
  color: darkred
 }
