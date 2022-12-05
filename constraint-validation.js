@@ -26,7 +26,6 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         } else if (currentElement.id === 'email') {
             if (!currentElement.validity.valid) {
-                console.log(currentElement.value);
                 currentElement.setCustomValidity(`Has to be a valid Email`);
                 currentElement.reportValidity();
             }
@@ -38,8 +37,14 @@ document.addEventListener("DOMContentLoaded", function () {
     email.addEventListener('input', checkValidation)
 
     form.addEventListener('submit', (e) => {
-        if (!firstName.validity.valid || !lastName.validity.valid || !email.validity.valid) {
-            e.preventDefault();
-        }
+        const validationElements = Array.from(document.querySelectorAll('.validate-input'));
+        validationElements.forEach(el => {
+
+            if (!el.validity.valid) {
+                el.reportValidity();
+                e.preventDefault();
+            }
+
+        });
     });
 });
