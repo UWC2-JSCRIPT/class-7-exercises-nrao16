@@ -14,7 +14,7 @@
   <body>
     <div class="container">
       <h1>Connect With Us</h1>
-      <form id="connect-form" action="">
+      <form novalidate id="connect-form" action="">
         <div class="form-group">
           <label for="first-name">First Name</label>
           <input
@@ -22,6 +22,7 @@
             class="form-control validate-input"
             type="text"
             name="first-name"
+            minlength="3"
           />
           <small class="error" aria-live="polite"></small>
         </div>
@@ -33,6 +34,7 @@
             class="form-control validate-input"
             type="text"
             name="last-name"
+            minlength="3"
             
           />
           <small class="error" aria-live="polite"></small>
