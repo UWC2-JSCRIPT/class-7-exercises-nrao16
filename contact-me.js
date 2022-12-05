@@ -81,7 +81,6 @@ document.addEventListener("DOMContentLoaded", function () {
     contactReason.addEventListener('select', checkValidation);
     contactReason.addEventListener('change', selectEventHandler);
     jobTitle.addEventListener('input', checkValidation);
-    codeLang.addEventListener('input', checkValidation);
     companyWebsite.addEventListener('input', checkValidation);
 
     form.addEventListener('submit', (e) => {
@@ -91,12 +90,20 @@ document.addEventListener("DOMContentLoaded", function () {
             contactReason.reportValidity();
         }
 
+        if (contactReason.value === "talk") {
+            codeLang.setCustomValidity("");
+            if (codeLang.value == "") {
+                codeLang.setCustomValidity('Code language is required');
+                codeLang.reportValidity();
+            }
+        }
+
         if (!name.validity.valid
             || !email.validity.valid
             || !message.validity.valid
             || !contactReason.validity.valid
-            || (contactReason.value === "job" && (!jobTitle.validity.valid || !companyWebsite.validity.valid)) 
-            || (contactReason.value === "talk" && !codeLang.validity.valid) ) {
+            || (contactReason.value === "job" && (!jobTitle.validity.valid || !companyWebsite.validity.valid))
+            || (contactReason.value === "talk" && !codeLang.validity.valid)) {
             e.preventDefault();
         }
     });

@@ -84,14 +84,13 @@
         <div class="form-group">
           <span id="code-lang-form" class="hide">
           <label id="code-lang-label" for="code-lang">Coding Language</label>
-          <input
-            id="code-lang"
-            class="form-control validate-input"
-            type="text"
-            name="code-lang"
-            minlength="1"
-            required
-          />
+          <select class="form-control validate-input" name="code-lang" id="code-lang" required>
+            <option disabled selected value="">Choose one</option>
+            <option value="java">Java</option>
+            <option value="c#">C#</option>
+            <option value="css">CSS</option>
+            <option value="javascript">JavaScript</option>
+          </select>
           <small class="error" aria-live="polite"></small>
         </span>
         </div>
