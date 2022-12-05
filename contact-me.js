@@ -1,8 +1,8 @@
-// TODO
-// TODO
-// To see the ValidityState - it is a prototype object included inside the HTMLInputElement!
+// NOTES TO SELF - To see the ValidityState - it is a prototype object included inside the HTMLInputElement!
 // In the console - highlight the input box and type $0.__proto__ - you will see that the ValidityState is inherited
 // bootstrap does the styling, the validity object helps with the validation!
+// Make sure to reset customValidity before checking for errors and setting an error message
+
 // ensure dom fully loaded
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -19,51 +19,26 @@ document.addEventListener("DOMContentLoaded", function () {
     const codeLangForm = document.querySelector('#code-lang-form');
     const codeLang = document.querySelector('#code-lang');
 
+    // common validation for all input fields
     function checkValidation(e) {
         let currentElement = e.target;
-        // console.log(`id:${currentElement.id}, value:${currentElement.value}, length:${currentElement.value.length}
-        // , valid:${currentElement.validity.valid}`);
-
         // without this the tool tip keeps showing!
         currentElement.setCustomValidity("");
-        if (currentElement.id === 'name') {
-            if (!currentElement.validity.valid) {
-                currentElement.setCustomValidity(`Name has to be minimum of ${currentElement.minLength} letters`);
-                currentElement.reportValidity();
+
+        // dyanmically figure out which label or field is not valid to generate appropriate error messages
+        let currentLabel = document.querySelector(`#${currentElement.id}-label`);
+        if (!currentElement.validity.valid) {
+            if (currentElement.validity.tooShort) {
+                currentElement.setCustomValidity(`${currentLabel?.textContent} has to be minimum of ${currentElement.minLength} characters.`);
             }
-        } else if (currentElement.id === 'email') {
-            if (!currentElement.validity.valid) {
-                //console.log(currentElement.value);
-                currentElement.setCustomValidity(`Has to be a valid Email`);
-                currentElement.reportValidity();
+            if (currentElement.validity.typeMismatch) {
+                currentElement.setCustomValidity(`${currentLabel?.textContent} has to be a valid ${currentElement.type}.`);
             }
-        } else if (currentElement.id === 'message') {
-            if (!currentElement.validity.valid) {
-                //console.log(currentElement.value);
-                currentElement.setCustomValidity(`Message has to be minimum of ${currentElement.minLength} letters`);
-                currentElement.reportValidity();
-            }
-        } else if (currentElement.id === 'job-title') {
-            if (!currentElement.validity.valid) {
-                //console.log(currentElement.value);
-                currentElement.setCustomValidity(`Job title has to be minimum of ${currentElement.minLength} letters`);
-                currentElement.reportValidity();
-            }
-        } else if (currentElement.id === 'company-website') {
-            if (!currentElement.validity.valid) {
-                //console.log(currentElement.value);
-                currentElement.setCustomValidity(`Has to be a valid URL`);
-                currentElement.reportValidity();
-            }
-        } else if (currentElement.id === 'code-lang') {
-            if (!currentElement.validity.valid) {
-                //console.log(currentElement.value);
-                currentElement.setCustomValidity(`Code language is required`);
-                currentElement.reportValidity();
-            }
+            currentElement.reportValidity();
         }
     }
 
+    // to hide or display additional fields based on selected option
     const selectEventHandler = function (e) {
         if (e.target.value === "job") {
             jobTitleForm.classList.remove("hide");
@@ -75,36 +50,25 @@ document.addEventListener("DOMContentLoaded", function () {
         e.target.value === "talk" ? codeLangForm.classList.remove("hide") : codeLangForm.classList.add("hide");
     }
 
+    // add all the appropriate event handlers
     name.addEventListener('input', checkValidation);
     email.addEventListener('input', checkValidation)
     message.addEventListener('input', checkValidation);
-    contactReason.addEventListener('select', checkValidation);
+
     contactReason.addEventListener('change', selectEventHandler);
     jobTitle.addEventListener('input', checkValidation);
     companyWebsite.addEventListener('input', checkValidation);
 
+    // final check for all visible elements in form
     form.addEventListener('submit', (e) => {
-        contactReason.setCustomValidity("");
-        if (contactReason.value === "") {
-            contactReason.setCustomValidity('Contact reason is required');
-            contactReason.reportValidity();
-        }
+        const validationElements = Array.from(document.querySelectorAll('.validate-input'));
+        validationElements.forEach(el => {
 
-        if (contactReason.value === "talk") {
-            codeLang.setCustomValidity("");
-            if (codeLang.value == "") {
-                codeLang.setCustomValidity('Code language is required');
-                codeLang.reportValidity();
+            if (!el.validity.valid && !el.parentElement.classList.contains("hide")) {
+                el.reportValidity();
+                e.preventDefault();
             }
-        }
 
-        if (!name.validity.valid
-            || !email.validity.valid
-            || !message.validity.valid
-            || !contactReason.validity.valid
-            || (contactReason.value === "job" && (!jobTitle.validity.valid || !companyWebsite.validity.valid))
-            || (contactReason.value === "talk" && !codeLang.validity.valid)) {
-            e.preventDefault();
-        }
+        });
     });
 });
