@@ -14,7 +14,7 @@
   <body>
     <div class="container">
       <h1>Connect With Us</h1>
-      <form id="connect-form" action="">
+      <form novalidate id="connect-form" action="">
         <div class="form-group">
           <label for="first-name">First Name</label>
           <input
@@ -22,7 +22,8 @@
             class="form-control validate-input"
             type="text"
             name="first-name"
-            
+            minlength="3"
+            required
           />
           <small class="error" aria-live="polite"></small>
         </div>
@@ -34,7 +35,8 @@
             class="form-control validate-input"
             type="text"
             name="last-name"
-            
+            minlength="3"
+            required
           />
           <small class="error" aria-live="polite"></small>
         </div>
@@ -46,6 +48,7 @@
             class="form-control validate-input"
             type="email"
             name="email"
+            required
           />
           <small class="error" aria-live="polite"></small>
         </div>
@@ -75,7 +78,7 @@
 
         <div class="form-group">
           <label for="doge">How much DogeCoin u donate me?</label>
-          <input type="number" id="doge" min=20>
+          <input type="number" id="doge" min=20 step="2">
         </div>
 
         <div class="form-group">
