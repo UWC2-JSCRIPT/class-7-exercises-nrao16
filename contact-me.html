@@ -14,7 +14,7 @@
   <body>
     <!-- TODO -->
     <div class="container">
-      <h1>Connect With Us</h1>
+      <h1>Contact Me</h1>
       <form novalidate id="contact-me-form" action="">
         <div class="form-group">
           <label for="first-name">First Name</label>
@@ -55,18 +55,59 @@
         </div>
 
         <div class="form-group">
-          <label for="kind">Reason for contacting?</label>
-          <select class="form-control" name="kind" id="contact-kind">
-            <option value="choose" selected="selected" disabled>
-              Choose one
-            </option>
+          <label for="contact-reason">Reason for contacting?</label>
+          <select class="form-control validate-input" name="contact-reason" id="contact-reason" required>
+            <option disabled selected value="">Choose one</option>
             <option value="job">Job opportunity</option>
             <option value="talk">Talk code</option>
-            required
           </select>
           <small class="error" aria-live="polite"></small>
         </div>
 
+        <div class="form-group">
+          <span id="job-title-form" class="hide">
+          <label id="job-title-label" for="job-title">Job title</label>
+          <input
+            id="job-title"
+            class="form-control validate-input"
+            type="text"
+            name="job-title"
+            minlength="10"
+            required
+          />
+          <small class="error" aria-live="polite"></small>
+        </span>
+        </div>
+
+        <div class="form-group">
+          <span id="company-website-form" class="hide">
+          <label id="company-website-label" for="company-website">Company website</label>
+          <input
+            id="company-website"
+            class="form-control validate-input"
+            type="url"
+            name="company-website"
+            minlength="10"
+            required
+          />
+          <small class="error" aria-live="polite"></small>
+        </span>
+        </div>
+
+        <div class="form-group">
+          <span id="code-lang-form" class="hide">
+          <label id="code-lang-label" for="code-lang">Coding Language</label>
+          <input
+            id="code-lang"
+            class="form-control validate-input"
+            type="text"
+            name="code-lang"
+            minlength="1"
+            required
+          />
+          <small class="error" aria-live="polite"></small>
+        </span>
+        </div>
 
         <div class="form-group">
           <label for="message">Message</label>
