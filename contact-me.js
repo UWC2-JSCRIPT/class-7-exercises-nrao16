@@ -7,8 +7,7 @@
 
 document.addEventListener("DOMContentLoaded", function () {
 
-    const firstName = document.querySelector('#first-name');
-    const lastName = document.querySelector('#last-name');
+    const name = document.querySelector('#name');
     const email = document.querySelector('#email');
     const form = document.querySelector('#contact-me-form');
     const message = document.querySelector('#message');
@@ -27,8 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // without this the tool tip keeps showing!
         currentElement.setCustomValidity("");
-        if (currentElement.id === 'first-name' ||
-            currentElement.id === 'last-name') {
+        if (currentElement.id === 'name') {
             if (!currentElement.validity.valid) {
                 currentElement.setCustomValidity(`Name has to be minimum of ${currentElement.minLength} letters`);
                 currentElement.reportValidity();
@@ -48,9 +46,9 @@ document.addEventListener("DOMContentLoaded", function () {
         } else if (currentElement.id === 'job-title') {
             if (!currentElement.validity.valid) {
                 //console.log(currentElement.value);
-                currentElement.setCustomValidity(`Message has to be minimum of ${currentElement.minLength} letters`);
+                currentElement.setCustomValidity(`Job title has to be minimum of ${currentElement.minLength} letters`);
                 currentElement.reportValidity();
-            } 
+            }
         } else if (currentElement.id === 'company-website') {
             if (!currentElement.validity.valid) {
                 //console.log(currentElement.value);
@@ -63,12 +61,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 currentElement.setCustomValidity(`Code language is required`);
                 currentElement.reportValidity();
             }
-        } 
+        }
     }
 
     const selectEventHandler = function (e) {
-        if(e.target.value === "job") {
-            jobTitleForm.classList.remove("hide") ;
+        if (e.target.value === "job") {
+            jobTitleForm.classList.remove("hide");
             companyWebsiteForm.classList.remove("hide");
         } else {
             jobTitleForm.classList.add("hide");
@@ -77,37 +75,29 @@ document.addEventListener("DOMContentLoaded", function () {
         e.target.value === "talk" ? codeLangForm.classList.remove("hide") : codeLangForm.classList.add("hide");
     }
 
-        firstName.addEventListener('input', checkValidation);
-        lastName.addEventListener('input', checkValidation);
-        email.addEventListener('input', checkValidation)
-        message.addEventListener('input', checkValidation);
-        contactReason.addEventListener('select', checkValidation);
-        contactReason.addEventListener('change', selectEventHandler);
-        jobTitle.addEventListener('input', checkValidation);
-        codeLang.addEventListener('input', checkValidation);
-        companyWebsite.addEventListener('input', checkValidation);
+    name.addEventListener('input', checkValidation);
+    email.addEventListener('input', checkValidation)
+    message.addEventListener('input', checkValidation);
+    contactReason.addEventListener('select', checkValidation);
+    contactReason.addEventListener('change', selectEventHandler);
+    jobTitle.addEventListener('input', checkValidation);
+    codeLang.addEventListener('input', checkValidation);
+    companyWebsite.addEventListener('input', checkValidation);
 
-        form.addEventListener('submit', (e) => {
-            if (!firstName.validity.valid
-                || !lastName.validity.valid
-                || !email.validity.valid
-                || !message.validity.valid
-                || !contactReason.validity.valid) {
-                e.preventDefault();
-            }
-            else if(contactReason.value === "") { 
-                console.log("stop")
-                contactReason.setCustomValidity('Contact reason is required');
-                contactReason.reportValidity();  
-                e.preventDefault;              
-            } else {
-                if(contactReason === "job" && 
-                (!jobTitle.validity.valid || !companyWebsite.validity.valid) ) {
-                    e.preventDefault;
-                } else if(contactReason === "talk" &&
-                !codeLang.validity.valid) {
-                    e.preventDefault;
-                }
-            }             
-        });
+    form.addEventListener('submit', (e) => {
+        contactReason.setCustomValidity("");
+        if (contactReason.value === "") {
+            contactReason.setCustomValidity('Contact reason is required');
+            contactReason.reportValidity();
+        }
+
+        if (!name.validity.valid
+            || !email.validity.valid
+            || !message.validity.valid
+            || !contactReason.validity.valid
+            || (contactReason.value === "job" && (!jobTitle.validity.valid || !companyWebsite.validity.valid)) 
+            || (contactReason.value === "talk" && !codeLang.validity.valid) ) {
+            e.preventDefault();
+        }
     });
+});
